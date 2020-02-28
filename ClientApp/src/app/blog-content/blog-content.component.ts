@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CurrentBlogQuery, CurrentBlogGQL } from '../graphql/graphql';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -16,6 +17,7 @@ export class BlogContentComponent implements OnInit {
   number = parseInt(sessionStorage.getItem('page') || '') || 1
   public markdown = "# Markdown";
   name!: string;
+  baseURL = environment.serverURL;
   constructor(private route: ActivatedRoute, private router: Router, private currentBlogPostGQL: CurrentBlogGQL) { }
   public config = {
     itemsPerPage: 1,
@@ -24,19 +26,16 @@ export class BlogContentComponent implements OnInit {
   };
   p: number = 0;
 
-
-
   ngOnInit() {
 
     this.route.params.subscribe((prams) => {
-      const url = `${prams.path}`
+    const url = 'blog/' + `${prams.path}`;
      this.blogPost = this.currentBlogPostGQL.watch({
        urlPath: url
      }).valueChanges.pipe(map(blog => blog.data))
     })
 
   }
-
 
   onPageChange(name: string, number: number) {
     this.router.navigate(['blog/', name])

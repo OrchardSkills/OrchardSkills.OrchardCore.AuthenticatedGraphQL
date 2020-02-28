@@ -9,6 +9,7 @@ import {
   HttpParams,
   HttpResponse
 } from "@angular/common/http";
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: "app-blog",
@@ -20,7 +21,7 @@ export class BlogComponent implements OnInit {
   blogPosts!: Observable<BlogPostsQuery>;
   modalIsActive!: boolean;
   values!: string;
-
+  baseURL = environment.serverURL;
   public config = {
     itemsPerPage: 1,
     // tslint:disable-next-line: radix
@@ -47,7 +48,9 @@ export class BlogComponent implements OnInit {
   }
 
   showMore(name: string) {
-    this.router.navigate(["/blog", name]);
+    var ln = name.length; 
+    var id = name.substr(5,ln);    
+    this.router.navigate(["/blog", id]);
     console.log("aaaaaaaa", this.config.currentPage);
   }
 }

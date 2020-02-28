@@ -10,6 +10,7 @@ import {
   HttpResponse
 } from "@angular/common/http";
 import { AuthService } from './core/auth.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -25,9 +26,6 @@ export class AppComponent implements OnInit {
     currentPage: parseInt(sessionStorage.getItem('blogPage') || '') || 0
   };
 
-
-
-
   constructor(
     private router: Router,
     private allBlogPostGQL: BlogPostsGQL,
@@ -37,6 +35,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
 
+    const url = environment.serverURL + '/connect/token/';
     this.blogPosts = this.allBlogPostGQL.watch().valueChanges.pipe(map(blogs => blogs.data));
 
     const body = new HttpParams()
@@ -46,12 +45,11 @@ export class AppComponent implements OnInit {
     const headers = new HttpHeaders({
       "Content-Type": "application/x-www-form-urlencoded"
     });
-     this.http.post('https://OrchardCMS.net/connect/token', body, {headers: headers}).subscribe( res => {
-        console.log(res);
-        const jsonToken = res['access_token'];
-        localStorage.setItem('access_token', jsonToken)
-        
-       
+     
+    this.http.post(url, body, {headers: headers}).subscribe( res => {
+      console.log(res);
+      const jsonToken = res['access_token'];
+      localStorage.setItem('access_token', jsonToken)
     });
   
 

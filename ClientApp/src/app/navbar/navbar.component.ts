@@ -3,6 +3,7 @@ import { SearchQueryGQL, SearchQueryQuery, SearchQueryDocument } from 'src/app/g
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-navbar',
@@ -13,7 +14,7 @@ export class NavbarComponent implements OnInit {
   isActive: boolean;
   add!: boolean;
   searchPosts!: Observable<SearchQueryQuery>
-  
+  baseURL = environment.serverURL;
   unSubscribe!: Subscription;
   constructor(private searchBlog: SearchQueryGQL, private router: Router) { }
 
@@ -35,7 +36,9 @@ export class NavbarComponent implements OnInit {
     }).valueChanges.pipe(map(blogs => blogs.data))
   }
   navigate(name: string) {
-    this.router.navigate(['/blog', name], { replaceUrl: true });
+    var ln = name.length; 
+    var id = name.substr(5,ln);    
+    this.router.navigate(['/blog', id], { replaceUrl: true });
     this.openSearch()
   }
   ngOnDestroy() {

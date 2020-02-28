@@ -17,7 +17,7 @@
             <div class="card-image">
               <figure style="cursor: pointer;" (click)="showMore(blog.path)" class="image">
   
-                <img class="image" *ngIf="blog.image.urls" src="https://OrchardCMS.net{{blog.image.urls}}"
+                <img class="image" *ngIf="blog.image.urls" src="{{baseURL}}{{blog.image.urls}}"
                   alt="Placeholder image">
 
               </figure>
