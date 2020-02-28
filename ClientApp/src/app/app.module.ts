@@ -11,6 +11,7 @@ import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { BlogContentComponent } from './blog-content/blog-content.component';
 import { BlogComponent } from './blog/blog.component';
+import { CoreModule } from './core/core.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,6 +42,7 @@ import { BlogComponent } from './blog/blog.component';
         }
       }
     }),
+    CoreModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

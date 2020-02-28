@@ -9,6 +9,7 @@ import {
   HttpParams,
   HttpResponse
 } from "@angular/common/http";
+import { AuthService } from './core/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -30,7 +31,8 @@ export class AppComponent implements OnInit {
   constructor(
     private router: Router,
     private allBlogPostGQL: BlogPostsGQL,
-    private http: HttpClient
+    private http: HttpClient,
+    private auth: AuthService
   ) { }
 
   ngOnInit() {
@@ -44,19 +46,12 @@ export class AppComponent implements OnInit {
     const headers = new HttpHeaders({
       "Content-Type": "application/x-www-form-urlencoded"
     });
-     console.log (body);
      this.http.post('https://OrchardCMS.net/connect/token', body, {headers: headers}).subscribe( res => {
         console.log(res);
-        const jsonToken = res.toString();
-        console.log(jsonToken);
-        var token = JSON.parse(jsonToken, function (key, value) {
-        if (key == "access_token") {
-            return value;
-          } else {
-            return value;
-          }
-        });
-        console.log(token) 
+        const jsonToken = res['access_token'];
+        localStorage.setItem('access_token', jsonToken)
+        
+       
     });
   
 
