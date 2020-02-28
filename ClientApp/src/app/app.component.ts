@@ -3,6 +3,13 @@ import { Observable, from } from 'rxjs';
 import { BlogPostsQuery, BlogPostsGQL } from './graphql/graphql';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpParams,
+  HttpResponse
+} from "@angular/common/http";
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -22,12 +29,36 @@ export class AppComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private allBlogPostGQL: BlogPostsGQL
+    private allBlogPostGQL: BlogPostsGQL,
+    private http: HttpClient
   ) { }
 
   ngOnInit() {
 
-    this.blogPosts = this.allBlogPostGQL.watch().valueChanges.pipe(map(blogs => blogs.data))
+    this.blogPosts = this.allBlogPostGQL.watch().valueChanges.pipe(map(blogs => blogs.data));
+
+    const body = new HttpParams()
+      .set("client_id", "e0f660a2cf2a47babac40a4a8c24e7e0")
+      .set("client_secret", "76945d3917a4456db5a41fc2949d6439")
+      .set("grant_type", "client_credentials");
+    const headers = new HttpHeaders({
+      "Content-Type": "application/x-www-form-urlencoded"
+    });
+     console.log (body);
+     this.http.post('https://OrchardCMS.net/connect/token', body, {headers: headers}).subscribe( res => {
+        console.log(res);
+        const jsonToken = res.toString();
+        console.log(jsonToken);
+        var token = JSON.parse(jsonToken, function (key, value) {
+        if (key == "access_token") {
+            return value;
+          } else {
+            return value;
+          }
+        });
+        console.log(token) 
+    });
+  
 
   }
 
