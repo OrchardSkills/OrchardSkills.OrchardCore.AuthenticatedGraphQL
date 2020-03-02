@@ -1445,6 +1445,14 @@
       "Queries": [
         {
           "Source": "Lucene",
+          "Name": "SearchBlogPosts",
+          "Index": "Search",
+          "Template": "[file:text('Snippets/searchBlogPosts.json')]",
+          "Schema": "[js:base64('ew0KICAgICJ0eXBlIjogIkNvbnRlbnRJdGVtL0Jsb2dQb3N0Ig0KfQ==')]",
+          "ReturnContentItems": true
+        },
+        {
+          "Source": "Lucene",
           "Name": "RecentBlogPosts",
           "Index": "Search",
           "Template": "[file:text('Snippets/recentBlogPosts.json')]",
