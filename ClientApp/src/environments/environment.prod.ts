@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  serverURL: 'https://OrchardCMS.net'
+  serverURL: 'http://localhost:5000'
 };
